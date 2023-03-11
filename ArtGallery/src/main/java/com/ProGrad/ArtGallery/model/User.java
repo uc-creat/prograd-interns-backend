@@ -1,12 +1,23 @@
 package com.ProGrad.ArtGallery.model;
 
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "_user")
 public class User {
+    @Id @GeneratedValue
     private Long id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+     private List<Collection> collection = new ArrayList<>();
 
     public User(Long id, String firstName, String lastName, String email, String password) {
         this.id = id;
@@ -14,6 +25,10 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public User() {
+
     }
 
     public Long getId() {
@@ -54,6 +69,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setCollection(List<Collection> collection) {
+        this.collection = collection;
+    }
+
+    public List<Collection> getCollection() {
+        return collection;
     }
 
     @Override
