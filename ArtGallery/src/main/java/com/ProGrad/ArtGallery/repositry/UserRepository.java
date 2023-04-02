@@ -3,6 +3,8 @@ package com.ProGrad.ArtGallery.repositry;
 import com.ProGrad.ArtGallery.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepositry extends JpaRepository<User,Long> {
-    public User findByEmail(String email);
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User,Long> {
+    Optional<User> findByEmail(String email);
 }

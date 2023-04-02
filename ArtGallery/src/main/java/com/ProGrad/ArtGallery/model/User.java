@@ -2,13 +2,16 @@ package com.ProGrad.ArtGallery.model;
 
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "_user")
-public class User  {
+public class User implements UserDetails {
     @Id @GeneratedValue
     private Long id;
     private String firstName;
@@ -16,6 +19,8 @@ public class User  {
     @Column(unique = true)
     private String email;
     private String password;
+
+    private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
      private List<Collection> collection = new ArrayList<>();
 
@@ -63,8 +68,39 @@ public class User  {
         this.email = email;
     }
 
+    @Override
+    public java.util.Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
