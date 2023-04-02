@@ -2,6 +2,11 @@ package com.ProGrad.ArtGallery.model;
 
 
 import jakarta.persistence.*;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,30 +15,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
 @Table(name = "_user")
+
 public class User implements UserDetails {
     @Id @GeneratedValue
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     @Column(unique = true)
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
      private List<Collection> collection = new ArrayList<>();
 
-    public User(Long id, String firstName, String lastName, String email, String password) {
+    public User(Long id, String firstname, String lastname, String email, String password, Role role, List<Collection> collection) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.role = role;
+        this.collection = collection;
     }
 
     public User() {
-
     }
 
     public Long getId() {
@@ -44,20 +54,20 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstName) {
+        this.firstname = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastName) {
+        this.lastname = lastName;
     }
 
     public String getEmail() {
@@ -119,8 +129,8 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstname + '\'' +
+                ", lastName='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
