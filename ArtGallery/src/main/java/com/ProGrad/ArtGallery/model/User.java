@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "_user")
-public class User {
+public class User  {
     @Id @GeneratedValue
     private Long id;
     private String firstName;
