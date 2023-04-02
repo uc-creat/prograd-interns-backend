@@ -19,7 +19,7 @@ public class UserSignupController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<String> addUser(@RequestBody User user) {
         return userSignupService.addUser(user);
     }
     @GetMapping("/users")

@@ -17,14 +17,15 @@ public class UserSignupService {
         this.userORM = userORM;
     }
 
-    public ResponseEntity<User> addUser(User user) {
-        User checkingForExixtingUser = userORM.findByEmail(user.getEmail());
-        if(checkingForExixtingUser == null) {
+    public ResponseEntity<String> addUser(User user) {
+
+        User checkingForExistingUser = userORM.findByEmail(user.getEmail());
+        if(checkingForExistingUser == null) {
             userORM.save(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>("User Created Successfully",HttpStatus.CREATED);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Please try to login",HttpStatus.BAD_REQUEST);
         }
     }
 
